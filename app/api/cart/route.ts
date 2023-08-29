@@ -101,24 +101,6 @@ export async function GET(request: NextRequest) {
     }
 }
 
-// from dave gray video of nextjs middleware
-// const DATA_SOURCE_URL = "https://jsonplaceholder.typicode.com/todos"
-
-// export async function GET(request: Request) {
-//     const origin = request.headers.get('origin')
-
-//     const res = await fetch(DATA_SOURCE_URL)
-
-//     const todos = await res.json()
-
-//     return new NextResponse(JSON.stringify(todos), {
-//         headers: {
-//             'Access-Control-Allow-Origin': origin || "*",
-//             'Content-Type': 'application/json',
-//         }
-//     })
-// }
-
 export async function POST(request: NextRequest) {
     const origin = request.headers.get('origin')
 
