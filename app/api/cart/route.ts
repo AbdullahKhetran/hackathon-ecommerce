@@ -289,12 +289,12 @@ export async function OPTIONS(request: NextRequest) {
     try {
         return NextResponse.json(
             { message: "Sucess" },
-            // {
-            //     headers: {
-            //         'Access-Control-Allow-Origin': origin!,
-            //         'Content-Type': 'application/json',
-            //     }
-            // }
+            {
+                headers: {
+                    'Access-Control-Allow-Origin': origin!,
+                    'Content-Type': 'application/json',
+                }
+            }
         )
 
     } catch (error) {
