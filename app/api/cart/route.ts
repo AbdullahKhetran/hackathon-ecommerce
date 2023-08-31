@@ -216,12 +216,12 @@ export async function PUT(request: NextRequest) {
 
             return NextResponse.json(
                 { message: "Product updated sucessfully" },
-                // {
-                //     headers: {
-                //         'Access-Control-Allow-Origin': origin!,
-                //         'Content-Type': 'application/json',
-                //     }
-                // }
+                {
+                    headers: {
+                        'Access-Control-Allow-Origin': origin!,
+                        'Content-Type': 'application/json',
+                    }
+                }
             )
         } else {
             return NextResponse.json(
