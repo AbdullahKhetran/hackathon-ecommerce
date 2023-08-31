@@ -53,7 +53,7 @@ function makeCombinedProductsArray(res: Cart[], sanityProducts: MyProduct[]) {
 
 export async function GET(request: NextRequest) {
 
-    const origin = request.headers.get('origin')
+    // const origin = request.headers.get('origin')
 
     const params = request.nextUrl.searchParams
     const paramUserId = params.get("userid")
