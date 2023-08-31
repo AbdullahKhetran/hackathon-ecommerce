@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 
 const allowedOrigins = process.env.NODE_ENV === 'production'
-    ? [`${process.env.NEXT_PUBLIC_PREVIEW_URL}`, `${process.env.SECRET_URL}`]
+    ? [`${process.env.NEXT_PUBLIC_PREVIEW_URL}`, `${process.env.SECRET_URL}`, `${process.env.NEXT_PUBLIC_URL}`]
     : ["http://localhost:3000"]
 
 export function middleware(request: Request) {
