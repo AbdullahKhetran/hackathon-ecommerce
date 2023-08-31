@@ -53,7 +53,7 @@ function makeCombinedProductsArray(res: Cart[], sanityProducts: MyProduct[]) {
 
 export async function GET(request: NextRequest) {
 
-    // const origin = request.headers.get('origin')
+    const origin = request.headers.get('origin')
 
     const params = request.nextUrl.searchParams
     const paramUserId = params.get("userid")
@@ -70,23 +70,23 @@ export async function GET(request: NextRequest) {
             const combinedProducts = makeCombinedProductsArray(res, sanityProducts)
 
             return new NextResponse(JSON.stringify(combinedProducts),
-                // {
-                //     headers: {
-                //         'Access-Control-Allow-Origin': origin!,
-                //         'Content-Type': 'application/json',
-                //     }
-                // }
+                {
+                    headers: {
+                        'Access-Control-Allow-Origin': origin!,
+                        'Content-Type': 'application/json',
+                    }
+                }
             )
 
         } else {
             return NextResponse.json(
                 { message: "Cart is Empty" },
-                // {
-                //     headers: {
-                //         'Access-Control-Allow-Origin': origin!,
-                //         'Content-Type': 'application/json',
-                //     }
-                // }
+                {
+                    headers: {
+                        'Access-Control-Allow-Origin': origin!,
+                        'Content-Type': 'application/json',
+                    }
+                }
             )
 
         }
