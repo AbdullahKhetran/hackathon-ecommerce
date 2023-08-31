@@ -176,12 +176,12 @@ export async function POST(request: NextRequest) {
 
             return NextResponse.json(
                 { message: "Data added successfully", res },
-                // {
-                //     headers: {
-                //         'Access-Control-Allow-Origin': origin!,
-                //         'Content-Type': 'application/json',
-                //     }
-                // }
+                {
+                    headers: {
+                        'Access-Control-Allow-Origin': origin!,
+                        'Content-Type': 'application/json',
+                    }
+                }
             )
 
         } else {
