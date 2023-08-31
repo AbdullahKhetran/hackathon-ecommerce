@@ -285,6 +285,7 @@ export async function DELETE(request: NextRequest) {
 
 export async function OPTIONS(request: NextRequest) {
     const origin = request.headers.get('origin')
+    console.log("origin in options request is", origin)
 
     try {
         return NextResponse.json(
