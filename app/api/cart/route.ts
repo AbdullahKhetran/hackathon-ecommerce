@@ -292,7 +292,8 @@ export async function OPTIONS(request: NextRequest) {
             { message: "Sucess" },
             {
                 headers: {
-                    'Access-Control-Allow-Origin': origin!,
+                    // 'Access-Control-Allow-Origin': origin!,
+                    'Access-Control-Allow-Origin': "*",
                     "Access-Control-Allow-Methods": "GET, POST, PUT, OPTIONS, DELETE",
                     'Content-Type': 'application/json',
                 }
