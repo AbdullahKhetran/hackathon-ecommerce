@@ -215,7 +215,7 @@ export async function PUT(request: NextRequest) {
                 .returning()
 
             return NextResponse.json(
-                { message: "Product updated sucessfully" },
+                { message: `Product updated sucessfully, new qunatity is ${req.quantity}` },
                 {
                     headers: {
                         'Access-Control-Allow-Origin': origin!,
@@ -292,8 +292,8 @@ export async function OPTIONS(request: NextRequest) {
             { message: "Sucess" },
             {
                 headers: {
-                    // 'Access-Control-Allow-Origin': origin!,
-                    'Access-Control-Allow-Origin': "*",
+                    'Access-Control-Allow-Origin': origin!,
+                    // 'Access-Control-Allow-Origin': "*",
                     "Access-Control-Allow-Methods": "GET, POST, PUT, OPTIONS, DELETE",
                     'Content-Type': 'application/json',
                 }
