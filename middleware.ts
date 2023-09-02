@@ -7,10 +7,10 @@ const allowedOrigins = process.env.NODE_ENV === 'production'
 export function middleware(request: Request) {
 
     const origin = request.headers.get('origin')
-    console.log(origin)
+    console.log(origin) // ye null de raha hai live site pr
 
     if (origin && !allowedOrigins.includes(origin) || !origin) {
-        // !origin for tools like thunderclient and postman which doesnt send headers
+        // !origin for tools like thunderclient and postman
         return new NextResponse(null, {
             status: 400,
             statusText: "Bad Request",
