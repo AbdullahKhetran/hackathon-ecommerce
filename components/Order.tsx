@@ -45,6 +45,56 @@ export function Order({ matchingProduct }: Props) {
     }
 
     // call on button click
+    // const handleAddToCartClick = async () => {
+
+    //     try {
+    //         // get data: if product exists, PUT request else POST request
+    //         const data = await getData(userId)
+
+    //         if (Array.isArray(data)) {
+    //             // if data has products in it and not an json object
+
+    //             const existingProduct = data.find((item) => item.id === matchingProduct._id)
+
+    //             if (existingProduct) { // PUT request
+
+    //                 const newQuantity = existingProduct.quantity + quantity
+
+    //                 // update database
+    //                 await handleChange({ uid: userId, product: existingProduct, quantity: newQuantity })
+
+    //                 // update state
+    //                 dispatch(increaseQuantity(existingProduct.id))
+
+    //             } else { // POST request
+    //                 // update database
+    //                 handleAddToCart({ product: cartProduct, quantity: quantity, uid: userId }) // updates database
+    //                 //    update state
+    //                 const payload = {
+    //                     product: cartProduct,
+    //                     quantity: quantity,
+    //                 }
+    //                 dispatch(addToCart(payload));
+
+    //             }
+    //         } else { // now either cart is empty json or error json
+    //             // update database
+    //             handleAddToCart({ product: cartProduct, quantity: quantity, uid: userId }) // updates database
+    //             //    update state
+    //             const payload = {
+    //                 product: cartProduct,
+    //                 quantity: quantity,
+    //             }
+    //             dispatch(addToCart(payload));
+
+    //         }
+
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
+
+    // call on button click
     const handleAddToCartClick = async () => {
 
         try {
