@@ -65,8 +65,8 @@ export async function handleDeleteFromCart({ uid, productId }: DeleteProductProp
 }
 
 export async function handleChange({ uid, product, quantity }: PropsPUT) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/cart/`, {
-    // const res = await fetch(`http://localhost:3000/api/cart/`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/cart`, {
+    // const res = await fetch(`http://localhost:3000/api/cart`, {
 
     method: "PUT",
     body: JSON.stringify({
