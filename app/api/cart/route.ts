@@ -101,62 +101,6 @@ export async function GET(request: NextRequest) {
     }
 }
 
-// export async function GET(request: Request) {
-
-//     const origin = request.headers.get('origin')
-
-//     // const params = request.nextUrl.searchParams
-//     // const paramUserId = params.get("userid")
-
-//     const params = request.headers.get("origin")
-//     console.log(params)
-
-//     // console.log("User id in params is " + paramUserId)
-
-//     return NextResponse.json({message: `params is ${params}`})
-
-//     // try {
-//     //     const uid = paramUserId as string;
-//     //     const res = await db.select().from(cartTable).where(eq(cartTable.userid, uid))
-
-//     //     if (res.length > 0) {
-//     //         const ids = getIdsFromDb(res)
-//     //         const sanityProducts = await getProductsFromSanity(ids)
-//     //         const combinedProducts = makeCombinedProductsArray(res, sanityProducts)
-
-//     //         return new NextResponse(JSON.stringify(combinedProducts),
-//     //             {
-//     //                 headers: {
-//     //                     'Access-Control-Allow-Origin': origin!,
-//     //                     'Content-Type': 'application/json',
-//     //                 }
-//     //             }
-//     //         )
-
-//     //     } else {
-//     //         return NextResponse.json(
-//     //             { message: "Cart is Empty" },
-//     //             {
-//     //                 headers: {
-//     //                     'Access-Control-Allow-Origin': origin!,
-//     //                     'Content-Type': 'application/json',
-//     //                 }
-//     //             }
-//     //         )
-
-//     //     }
-
-//     // }
-
-//     // catch (error) {
-//     //     return NextResponse.json(
-//     //         { message: "Something went wrong", err: error },
-//     //         { status: 500, }
-//     //     )
-//     // }
-// }
-
-
 export async function POST(request: NextRequest) {
     const origin = request.headers.get('origin')
 

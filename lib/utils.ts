@@ -27,11 +27,6 @@ export async function handleAddToCart({ product, quantity, uid }: PropsPOST) {
 
     method: "POST",
 
-    // headers: {
-    //   'Access-Control-Allow-Origin': origin!,
-    //   'Content-Type': 'application/json',
-    // },
-
     body: JSON.stringify({
       userid: uid,
       productid: product.productid,
@@ -41,7 +36,7 @@ export async function handleAddToCart({ product, quantity, uid }: PropsPOST) {
     })
   })
 
-  console.log(res)
+  // console.log(res)
 
   if (!res.ok) {
     throw new Error("Could not add to cart")
