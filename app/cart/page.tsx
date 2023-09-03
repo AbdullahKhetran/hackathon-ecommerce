@@ -3,7 +3,7 @@ import Footer from "@/components/Footer/Footer"
 import Copyright from "@/components/Footer/Copyright"
 import Navbar from "@/components/Navbar/Navbar"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { getData, getDataWithOrigin } from "@/app/cart/cartData"
+import { getData } from "@/app/cart/cartData"
 import { useEffect, useState } from "react"
 import { CombinedProduct, MyProduct } from "@/types/products";
 import { MinusIcon, PlusIcon, ShoppingCart, Trash2 } from "lucide-react"
@@ -60,9 +60,7 @@ export default function Home() {
     useEffect(() => {
         async function fetchData() {
             try {
-                // const fetchedData = await getData(userid);
-
-                const fetchedData = await getDataWithOrigin(userid);
+                const fetchedData = await getData(userid);
                 // console.log(fetchedData)
                 // console.log("fetched data is an array?", Array.isArray(fetchedData))
 

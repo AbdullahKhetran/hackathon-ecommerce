@@ -9,8 +9,7 @@ export function middleware(request: Request) {
     const origin = request.headers.get('origin')
     console.log(origin) // ye null de raha hai live site pr
 
-    if (origin && !allowedOrigins.includes(origin) || !origin) {
-        // !origin for tools like thunderclient and postman
+    if (origin && !allowedOrigins.includes(origin)) {
         return new NextResponse(null, {
             status: 400,
             statusText: "Bad Request",
