@@ -7,7 +7,7 @@ const allowedOrigins = process.env.NODE_ENV === 'production'
 export function middleware(request: Request) {
 
     const origin = request.headers.get('origin')
-    console.log(origin) // ye null de raha hai live site pr
+    console.log("Origin is", origin)
 
     if (origin && !allowedOrigins.includes(origin)) {
         return new NextResponse(null, {
@@ -21,8 +21,8 @@ export function middleware(request: Request) {
 
     console.log('Middleware!')
 
-    console.log(request.method)
-    console.log(request.url)
+    console.log("Request method is", request.method)
+    console.log("Request URL is", request.url)
 
     return NextResponse.next()
 }
