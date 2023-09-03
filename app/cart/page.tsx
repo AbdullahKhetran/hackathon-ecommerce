@@ -61,9 +61,8 @@ export default function Home() {
         async function fetchData() {
             try {
                 // const fetchedData = await getData(userid);
-                const origin = window.location.origin
-                console.log("Origin is ", origin)
-                const fetchedData = await getDataWithOrigin(userid, origin);
+
+                const fetchedData = await getDataWithOrigin(userid);
                 // console.log(fetchedData)
                 // console.log("fetched data is an array?", Array.isArray(fetchedData))
 

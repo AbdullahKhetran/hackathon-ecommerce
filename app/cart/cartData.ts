@@ -13,7 +13,9 @@ export async function getData(uid: string) {
     return data
 }
 
-export async function getDataWithOrigin(uid: string, origin: string) {
+export async function getDataWithOrigin(uid: string) {
+    const origin = window.location.origin
+    console.log("Origin is ", origin)
     const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/cart?userid=${uid}`, {
         headers: {
             "Origin": origin
