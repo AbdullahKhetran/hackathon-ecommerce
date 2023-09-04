@@ -9,7 +9,10 @@ export async function POST(req: any, res: any) {
     const headersList = headers();
 
     try {
-        const rawBody = await req.text();
+        // const rawBody = await req.text();
+
+        // buffer idea from docs: link below
+        const body = await buffer(req);
 
         const signature = headersList.get("stripe-signature")
 
@@ -30,7 +33,8 @@ export async function POST(req: any, res: any) {
             }
 
             event = stripe.webhooks.constructEvent(
-                rawBody.toString(), // Stringify the request for the Stripe library
+                // rawBody.toString(), // Stringify the request for the Stripe library
+                body,
                 signature,
                 webHookSecret
             )
@@ -71,3 +75,20 @@ export async function POST(req: any, res: any) {
     }
 
 }
+
+// from documentation: https://github.com/stripe/stripe-node/blob/master/examples/webhook-signing/nextjs/pages/api/webhooks.ts
+const buffer = (req: any) => {
+    return new Promise<Buffer>((resolve, reject) => {
+        const chunks: Buffer[] = [];
+
+        req.on('data', (chunk: Buffer) => {
+            chunks.push(chunk);
+        });
+
+        req.on('end', () => {
+            resolve(Buffer.concat(chunks));
+        });
+
+        req.on('error', reject);
+    });
+};
