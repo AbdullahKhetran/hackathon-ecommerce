@@ -80,13 +80,6 @@ import { NextResponse } from "next/server";
 import { buffer } from "micro"
 
 
-export const config = {
-    api: {
-        bodyParser: false,
-    },
-};
-
-
 export async function POST(req: any, res: any) {
 
     const webHookSecret = process.env.STRIPE_WEBHOOK_SIGNING_SECRET as string
@@ -105,7 +98,7 @@ export async function POST(req: any, res: any) {
 
             // got this from docs https://github.com/vercel/next.js/blob/canary/examples/with-stripe-typescript/app/api/webhooks/route.ts
             event = stripe.webhooks.constructEvent(
-                requestBuffer.toString(), // Stringify the request for the Stripe library
+                requestBuffer.toString(),
                 req.headers.get('stripe-signature') as string,
                 webHookSecret
             )
