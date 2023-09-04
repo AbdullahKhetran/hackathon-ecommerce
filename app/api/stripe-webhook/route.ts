@@ -10,8 +10,11 @@ export async function POST(req: any, res: any) {
 
     try {
         const rawBody = await req.text();
+        console.log(rawBody)
+
+        const body = await req.body()
+
         const signature = headersList.get("stripe-signature")
-        // const signature = req.headers["stripe-signature"]
 
         const stripe = new Stripe(
             process.env.STRIPE_SECRET_KEY as string,
@@ -31,7 +34,7 @@ export async function POST(req: any, res: any) {
 
             event = stripe.webhooks.constructEvent(
                 // rawBody.toString(), // Stringify the request for the Stripe library
-                req.body,
+                body,
                 signature,
                 webHookSecret
             )
