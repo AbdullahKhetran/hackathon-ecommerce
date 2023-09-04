@@ -1,19 +1,14 @@
 import Stripe from "stripe";
 import { db, cartTable } from "@/lib/drizzle";
 import { eq } from "drizzle-orm";
-import { headers } from "next/headers"
-
-const webHookSecret = process.env.STRIPE_WEBHOOK_SIGNING_SECRET as string
+import { NextResponse } from "next/server";
 
 
 export async function POST(req: Request, res: any) {
 
-    const headersList = headers();
+    const webHookSecret = process.env.STRIPE_WEBHOOK_SIGNING_SECRET as string
 
     try {
-        // const rawBody = await req.text();
-
-        const signature = headersList.get("stripe-signature")
 
         const stripe = new Stripe(
             process.env.STRIPE_SECRET_KEY as string,
@@ -22,20 +17,9 @@ export async function POST(req: Request, res: any) {
             }
         )
 
-        let event
+        let event: Stripe.Event
 
         try {
-            if (!signature || !webHookSecret) {
-                return new Response(`Webhook Signature Or Endpoint Secret is Missing`, {
-                    status: 400,
-                })
-            }
-
-            // event = stripe.webhooks.constructEvent(
-            //     rawBody.toString(), // Stringify the request for the Stripe library
-            //     signature,
-            //     webHookSecret
-            // )
 
             // got this from docs https://github.com/vercel/next.js/blob/canary/examples/with-stripe-typescript/app/api/webhooks/route.ts
             event = stripe.webhooks.constructEvent(
@@ -44,11 +28,15 @@ export async function POST(req: Request, res: any) {
                 webHookSecret
             )
 
-        } catch (error: any) {
-            console.log(`Something went wrong`, error);
-            return new Response(`Something went wrong in constructing event ${error}`, {
-                status: 400,
-            })
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : 'Unknown error'
+            // On error, log and return the error message.
+            if (err! instanceof Error) console.log(err)
+            console.log(`❌ Error message: ${errorMessage}`)
+            return NextResponse.json(
+                { message: `Webhook Error: ${errorMessage}` },
+                { status: 400 }
+            )
         }
 
 
@@ -61,15 +49,16 @@ export async function POST(req: Request, res: any) {
 
             await db.delete(cartTable).where(eq(cartTable.userid, userId));
 
-            return new Response("Payment Confirmation Router Reciept", {
-                status: 200
-            });
+            return NextResponse.json(
+                { message: "Payment Confirmation Router Reciept" },
+                { status: 200 }
+            );
 
 
         } else {
             res.setHeader("Allow", "POST");
         }
-    } catch (error: any) {
+    } catch (error) {
         console.log("Error in webhook", error);
         return;
     }
