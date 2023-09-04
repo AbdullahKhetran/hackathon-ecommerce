@@ -12,8 +12,6 @@ import { urlFor } from "@/sanity/sanity-utils"
 import { deleteFromCart, increaseQuantity, decreaseQuantity, reset } from "@/redux/features/cartSlice"
 import { handleChange } from "@/lib/utils";
 import StripeCheckoutButton from "@/components/CheckoutButton";
-// import { useRouter } from "next/navigation";
-
 
 function EmptyCart() {
     return (
@@ -46,14 +44,19 @@ export default function Home() {
         productId: string
     }
     async function handleDeleteFromCart({ uid, productId }: DeleteProductProps) {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/cart?userid=${uid}&productid=${productId}`, {
-            method: "DELETE",
-        })
-        console.log(res)
-        if (!res.ok) {
-            throw new Error("Could not remove product")
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/cart?userid=${uid}&productid=${productId}`, {
+                method: "DELETE",
+            })
+            console.log(res)
+            if (!res.ok) {
+                throw new Error("Could not remove product")
+            }
+            setRefresh(!refresh) // to re-render
+
+        } catch (error) {
+            console.error("Error deleting product", error)
         }
-        setRefresh(!refresh)
     }
 
     useEffect(() => {
@@ -74,7 +77,6 @@ export default function Home() {
             }
         }
         fetchData();
-        // eslint-disable-next-line
     }, [refresh, userid]);
 
 
@@ -100,26 +102,20 @@ export default function Home() {
                     <div className="flex flex-col gap-4">
                         {/* Generating Prodcut Cards */}
 
-                        {/* {data.map((product) => (
-                            <Test product={product} key={product.id} />
-                        ))} */}
-
                         {data.map((product) => {
                             // console.log(product)
-                            // const stateProduct = useAppSelector((state) => state.cart.products.find(item => item.productid === product.id))
-
 
                             // for  increasing product
-                            const handlePlus = (productId: string) => () => {
+                            const handlePlus = (productId: string) => async () => {
                                 dispatch(increaseQuantity(productId)); // updates state
-                                handleChange({ uid: userid, product: product, quantity: product.quantity + 1 }) // updates database
+                                await handleChange({ uid: userid, product: product, quantity: product.quantity + 1 }) // updates database
                                 setRefresh(!refresh) // updates ui
                             };
 
                             // for decreasing product
-                            const handleMinus = (productId: string) => () => {
+                            const handleMinus = (productId: string) => async () => {
                                 dispatch(decreaseQuantity(productId)); // updates state
-                                handleChange({ uid: userid, product: product, quantity: product.quantity - 1 }) // updates database
+                                await handleChange({ uid: userid, product: product, quantity: product.quantity - 1 }) // updates database
                                 setRefresh(!refresh) // updates ui    
                             };
 
@@ -152,24 +148,21 @@ export default function Home() {
                                             <button onClick={handleDelete(userid, product.id)}>
                                                 <Trash2 />
                                             </button>
-                                            {/* TODO kya ye div extra nahi hai */}
-                                            <div>
-                                                <div className='flex gap-3 items-center'>
-                                                    <button
-                                                        onClick={handleMinus(product.id)}
-                                                        disabled={product.quantity > 1 ? false : true}
-                                                        className='bg-[#f1f1f1] rounded-full p-1'>
-                                                        <MinusIcon size={16} />
-                                                    </button>
+                                            <div className='flex gap-3 items-center'>
+                                                <button
+                                                    onClick={handleMinus(product.id)}
+                                                    disabled={product.quantity > 1 ? false : true}
+                                                    className='bg-[#f1f1f1] rounded-full p-1'>
+                                                    <MinusIcon size={16} />
+                                                </button>
 
-                                                    <h2>{product.quantity}</h2>
+                                                <h2>{product.quantity}</h2>
 
-                                                    <button
-                                                        onClick={handlePlus(product.id)}
-                                                        className='border-2 border-black rounded-full p-1'>
-                                                        <PlusIcon size={16} />
-                                                    </button>
-                                                </div>
+                                                <button
+                                                    onClick={handlePlus(product.id)}
+                                                    className='border-2 border-black rounded-full p-1'>
+                                                    <PlusIcon size={16} />
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -204,24 +197,3 @@ export default function Home() {
     )
 
 }
-
-// i also have this option which will update the ui based on state but then i cant refresh the page using setrefresh(!refresh)
-// WILL THIS WORK WITH STRIPE?
-// type Prop = {
-//     product: CombinedProduct,
-// }
-
-// function Test({ product }: Prop) {
-//     const [quantity, setQuantity] = useState(product.quantity)
-
-//     const increment = () => {
-//         setQuantity(quantity + 1)
-//     }
-//     return (
-//         <div>
-//             <h1>Name: {product.name}</h1>
-//             <h2>Quantity: {quantity}</h2>
-//             <button onClick={increment}>increase quantity</button>
-//         </div>
-//     )
-// }
