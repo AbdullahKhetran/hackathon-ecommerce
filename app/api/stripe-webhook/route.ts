@@ -90,13 +90,13 @@ export async function POST(req: any, res: any) {
     try {
 
 
-        // Is se to chl raha hai
-        const rawBody = await req.arrayBuffer();
-        const body = Buffer.from(rawBody).toString("utf8");
+        // // Is se to chl raha hai
+        // const rawBody = await req.arrayBuffer();
+        // const body = Buffer.from(rawBody).toString("utf8");
 
 
-        // const rawBody = await req.text();
-        // const body = rawBody.toString()
+        const rawBody = await req.text();
+        const body = rawBody.toString()
         const signature = headerslist.get("stripe-signature")
 
         const stripe = new Stripe(
