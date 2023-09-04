@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 import { headers } from "next/headers"
 
 
-export async function POST(req: Request, res: any) {
+export async function POST(req: Request) {
 
     const headerslist = headers();
 
@@ -47,7 +47,6 @@ export async function POST(req: Request, res: any) {
             )
         }
 
-
         if (event.type === "checkout.session.completed") {
             const session = event.data.object;
             // @ts-ignore
@@ -64,7 +63,7 @@ export async function POST(req: Request, res: any) {
 
 
         } else {
-            res.setHeader("Allow", "POST");
+            return NextResponse.json({ message: `Unhhandled event: ${event.type}` })
         }
     } catch (error) {
         console.log("Error in webhook", error);
