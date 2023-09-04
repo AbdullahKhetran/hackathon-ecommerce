@@ -12,7 +12,7 @@ export async function POST(req: any, res: any) {
         const rawBody = await req.text();
         console.log(rawBody)
 
-        const body = await req.body()
+        const body = await req.body
 
         const signature = headersList.get("stripe-signature")
 
