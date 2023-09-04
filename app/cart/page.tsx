@@ -47,7 +47,6 @@ export default function Home() {
     }
     async function handleDeleteFromCart({ uid, productId }: DeleteProductProps) {
         const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/cart?userid=${uid}&productid=${productId}`, {
-            // const res = await fetch(`http://localhost:3000/api/cart?userid=${uid}&productid=${productId}`, {
             method: "DELETE",
         })
         console.log(res)
@@ -78,9 +77,6 @@ export default function Home() {
         // eslint-disable-next-line
     }, [refresh, userid]);
 
-    // const handleReset = () => {
-    //     dispatch(reset())
-    // }
 
     if (data.length === 0) return (
         <div className="max-w-center">
@@ -89,11 +85,6 @@ export default function Home() {
             <EmptyCart />
 
             <Footer />
-            {/* 
-            <button className="w-max p-2 bg-red-500"
-                onClick={handleReset}>
-                Reset State
-            </button> */}
 
             <Copyright />
         </div>
@@ -161,7 +152,7 @@ export default function Home() {
                                             <button onClick={handleDelete(userid, product.id)}>
                                                 <Trash2 />
                                             </button>
-
+                                            {/* TODO kya ye div extra nahi hai */}
                                             <div>
                                                 <div className='flex gap-3 items-center'>
                                                     <button
@@ -198,16 +189,16 @@ export default function Home() {
                             <h2>Sub Total</h2>
                             <h2>{totalAmount}</h2>
                         </div>
+
+                        {/* Stripe Checkout */}
                         <StripeCheckoutButton products={data} />
+
                     </div>
                 </div>
             </div>
 
             <Footer />
-            {/* <button className="w-max p-2 bg-red-500"
-                onClick={handleReset}>
-                Reset State
-            </button> */}
+
             <Copyright />
         </div>
     )
@@ -215,6 +206,7 @@ export default function Home() {
 }
 
 // i also have this option which will update the ui based on state but then i cant refresh the page using setrefresh(!refresh)
+// WILL THIS WORK WITH STRIPE?
 // type Prop = {
 //     product: CombinedProduct,
 // }

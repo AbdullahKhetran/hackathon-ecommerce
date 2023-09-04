@@ -23,10 +23,7 @@ type DeleteProductProps = {
 export async function handleAddToCart({ product, quantity, uid }: PropsPOST) {
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/cart`, {
-    // const res = await fetch(`http://localhost:3000/api/cart`, {
-
     method: "POST",
-
     body: JSON.stringify({
       userid: uid,
       productid: product.productid,
@@ -47,8 +44,6 @@ export async function handleAddToCart({ product, quantity, uid }: PropsPOST) {
 export async function handleDeleteFromCart({ uid, productId }: DeleteProductProps) {
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/cart?userid=${uid}&productid=${productId}`, {
-    // const res = await fetch(`http://localhost:3000/api/cart?userid=${uid}&productid=${productId}`, {
-
     method: "DELETE",
   })
 
@@ -61,8 +56,6 @@ export async function handleDeleteFromCart({ uid, productId }: DeleteProductProp
 
 export async function handleChange({ uid, product, quantity }: PropsPUT) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/cart`, {
-    // const res = await fetch(`http://localhost:3000/api/cart`, {
-
     method: "PUT",
     body: JSON.stringify({
       // to validate
