@@ -10,9 +10,7 @@ export async function POST(req: any, res: any) {
 
     try {
         // const rawBody = await req.text();
-
-        // buffer idea from docs: link below
-        const body = await buffer(req);
+        const rawBody = await req;
 
         const signature = headersList.get("stripe-signature")
 
@@ -34,7 +32,7 @@ export async function POST(req: any, res: any) {
 
             event = stripe.webhooks.constructEvent(
                 // rawBody.toString(), // Stringify the request for the Stripe library
-                body,
+                rawBody,
                 signature,
                 webHookSecret
             )
@@ -55,10 +53,6 @@ export async function POST(req: any, res: any) {
 
             await db.delete(cartTable).where(eq(cartTable.userid, userId));
 
-            // console.log("Payment Sucessful", session);
-            // @ts-ignore
-            // const line_Items = await stripe.checkout.sessions.listLineItems(event.data.object!.id);
-
             return new Response("Payment Confirmation Router Reciept", {
                 status: 200
             });
@@ -66,29 +60,10 @@ export async function POST(req: any, res: any) {
 
         } else {
             res.setHeader("Allow", "POST");
-            // res.status(405).end("Method Not Allowed");
         }
     } catch (error: any) {
         console.log("Error in webhook", error);
-        // res.status(400).send(`Webhook Error: ${err.message}`);
         return;
     }
 
 }
-
-// from documentation: https://github.com/stripe/stripe-node/blob/master/examples/webhook-signing/nextjs/pages/api/webhooks.ts
-const buffer = (req: any) => {
-    return new Promise<Buffer>((resolve, reject) => {
-        const chunks: Buffer[] = [];
-
-        req.on('data', (chunk: Buffer) => {
-            chunks.push(chunk);
-        });
-
-        req.on('end', () => {
-            resolve(Buffer.concat(chunks));
-        });
-
-        req.on('error', reject);
-    });
-};
