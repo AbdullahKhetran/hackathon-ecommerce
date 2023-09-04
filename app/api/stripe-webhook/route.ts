@@ -30,7 +30,8 @@ export async function POST(req: any, res: any) {
             }
 
             event = stripe.webhooks.constructEvent(
-                rawBody.toString(), // Stringify the request for the Stripe library
+                // rawBody.toString(), // Stringify the request for the Stripe library
+                req.body,
                 signature,
                 webHookSecret
             )
