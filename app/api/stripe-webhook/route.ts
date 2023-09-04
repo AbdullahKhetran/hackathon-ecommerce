@@ -6,13 +6,6 @@ import { headers } from "next/headers"
 const webHookSecret = process.env.STRIPE_WEBHOOK_SIGNING_SECRET as string
 
 
-export const config = {
-    api: {
-        bodyParser: false,
-    },
-}
-
-
 export async function POST(req: Request, res: any) {
 
     const headersList = headers();
