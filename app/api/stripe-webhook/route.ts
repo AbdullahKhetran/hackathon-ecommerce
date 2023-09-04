@@ -90,12 +90,13 @@ export async function POST(req: any, res: any) {
 
     try {
 
-        const requestBuffer = await buffer(req)
-        const rawBody = requestBuffer.toString()
+        // const requestBuffer = await buffer(req)
+        // const rawBody = requestBuffer.toString()
 
         // This gives error
         // const signature = req.headers['stripe-signature'] as string;
 
+        const rawBody = await req.text();
         const signature = headerslist.get("stripe-signature")
 
         const stripe = new Stripe(
@@ -109,7 +110,7 @@ export async function POST(req: any, res: any) {
 
             // got this from docs https://github.com/vercel/next.js/blob/canary/examples/with-stripe-typescript/app/api/webhooks/route.ts
             event = stripe.webhooks.constructEvent(
-                rawBody,
+                rawBody.toString(),
                 signature!,
                 webHookSecret
             )
