@@ -10,9 +10,6 @@ export async function POST(req: any, res: any) {
 
     try {
         const rawBody = await req.text();
-        console.log(rawBody)
-
-        const body = await req.body
 
         const signature = headersList.get("stripe-signature")
 
@@ -33,8 +30,7 @@ export async function POST(req: any, res: any) {
             }
 
             event = stripe.webhooks.constructEvent(
-                // rawBody.toString(), // Stringify the request for the Stripe library
-                body,
+                rawBody.toString(), // Stringify the request for the Stripe library
                 signature,
                 webHookSecret
             )
