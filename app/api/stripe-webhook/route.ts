@@ -6,12 +6,12 @@ import { headers } from "next/headers"
 const webHookSecret = process.env.STRIPE_WEBHOOK_SIGNING_SECRET as string
 export async function POST(req: any, res: any) {
 
-    // const headersList = headers();
+    const headersList = headers();
 
     try {
         const rawBody = await req.text();
-        // const signature = headersList.get("stripe-signature")
-        const signature = req.headers["stripe-signature"]
+        const signature = headersList.get("stripe-signature")
+        // const signature = req.headers["stripe-signature"]
 
         const stripe = new Stripe(
             process.env.STRIPE_SECRET_KEY as string,
