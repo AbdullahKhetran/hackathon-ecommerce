@@ -91,3 +91,29 @@ export async function POST(request: NextRequest) {
     }
 
 }
+
+// OPTIONS request only for CORS because browser first sends a OPTIONS (prefight) request
+export async function OPTIONS(request: NextRequest) {
+    const origin = request.headers.get('origin')
+    // console.log("origin in options request is", origin)
+
+    try {
+        return NextResponse.json(
+            { message: "Sucess" },
+            {
+                headers: {
+                    'Access-Control-Allow-Origin': origin!,
+                    "Access-Control-Allow-Methods": "GET, POST, PUT, OPTIONS, DELETE",
+                    'Content-Type': 'application/json',
+                }
+            }
+        )
+
+    } catch (error) {
+        console.log("OPTIONS request error", error)
+        return NextResponse.json(
+            { err: error },
+            { status: 500 }
+        )
+    }
+}
