@@ -85,7 +85,11 @@ export async function POST(req: any, res: any) {
     const webHookSecret = process.env.STRIPE_WEBHOOK_SIGNING_SECRET as string
 
     try {
+
         const requestBuffer = await buffer(req)
+        const rawBody = requestBuffer.toString()
+
+        const signature = req.headers['stripe-signature'] as string;
 
         const stripe = new Stripe(
             process.env.STRIPE_SECRET_KEY as string,
@@ -98,8 +102,8 @@ export async function POST(req: any, res: any) {
 
             // got this from docs https://github.com/vercel/next.js/blob/canary/examples/with-stripe-typescript/app/api/webhooks/route.ts
             event = stripe.webhooks.constructEvent(
-                requestBuffer.toString(),
-                req.headers.get('stripe-signature') as string,
+                rawBody,
+                signature,
                 webHookSecret
             )
 
