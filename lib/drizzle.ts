@@ -1,7 +1,7 @@
 import { sql } from '@vercel/postgres';
 import { drizzle } from 'drizzle-orm/vercel-postgres';
 import { pgTable, serial, varchar, integer } from "drizzle-orm/pg-core";
-import { InferModel } from 'drizzle-orm';
+import { type InferSelectModel, type InferInsertModel } from 'drizzle-orm'
 
 export const cartTable = pgTable("cart", {
     id: serial("id").primaryKey(),
@@ -13,8 +13,13 @@ export const cartTable = pgTable("cart", {
 })
 
 // Types
-export type Cart = InferModel<typeof cartTable>
-export type NewCart = InferModel<typeof cartTable, "insert">
+export type Cart = InferSelectModel<typeof cartTable>;
+export type NewCart = InferInsertModel<typeof cartTable>;
 
 // Connection
 export const db = drizzle(sql)
+
+// // They are deprecated now
+// import { InferModel } from 'drizzle-orm';
+// export type Cart = InferModel<typeof cartTable>
+// export type NewCart = InferModel<typeof cartTable, "insert">
