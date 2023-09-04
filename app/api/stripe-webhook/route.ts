@@ -4,12 +4,21 @@ import { eq } from "drizzle-orm";
 import { headers } from "next/headers"
 
 const webHookSecret = process.env.STRIPE_WEBHOOK_SIGNING_SECRET as string
-export async function POST(req: any, res: any) {
+
+
+export const config = {
+    api: {
+        bodyParser: false,
+    },
+}
+
+
+export async function POST(req: Request, res: any) {
 
     const headersList = headers();
 
     try {
-        const rawBody = await req.text();
+        // const rawBody = await req.text();
 
         const signature = headersList.get("stripe-signature")
 
@@ -29,11 +38,19 @@ export async function POST(req: any, res: any) {
                 })
             }
 
+            // event = stripe.webhooks.constructEvent(
+            //     rawBody.toString(), // Stringify the request for the Stripe library
+            //     signature,
+            //     webHookSecret
+            // )
+
+            // got this from docs https://github.com/vercel/next.js/blob/canary/examples/with-stripe-typescript/app/api/webhooks/route.ts
             event = stripe.webhooks.constructEvent(
-                rawBody.toString(), // Stringify the request for the Stripe library
-                signature,
+                await (await req.blob()).text(),
+                req.headers.get('stripe-signature') as string,
                 webHookSecret
             )
+
         } catch (error: any) {
             console.log(`Something went wrong`, error);
             return new Response(`Something went wrong in constructing event ${error}`, {
