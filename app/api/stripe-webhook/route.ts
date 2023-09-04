@@ -9,8 +9,7 @@ export async function POST(req: any, res: any) {
     const headersList = headers();
 
     try {
-        // const rawBody = await req.text();
-        const rawBody = await req;
+        const rawBody = await req.text();
 
         const signature = headersList.get("stripe-signature")
 
@@ -31,9 +30,7 @@ export async function POST(req: any, res: any) {
             }
 
             event = stripe.webhooks.constructEvent(
-                // rawBody.toString(), // Stringify the request for the Stripe library
-                // can this be JSON.stringify
-                JSON.stringify(rawBody),
+                rawBody.toString(), // Stringify the request for the Stripe library
                 signature,
                 webHookSecret
             )
