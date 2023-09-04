@@ -36,7 +36,7 @@ export async function POST(req: any, res: any) {
             )
         } catch (error: any) {
             console.log(`Something went wrong`, error);
-            return new Response("Something went wrong", {
+            return new Response("Something went wrong in constructing event", {
                 status: 400,
             })
         }
