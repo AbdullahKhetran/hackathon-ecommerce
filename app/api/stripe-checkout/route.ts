@@ -11,6 +11,8 @@ const stripe = new Stripe(key!, {
 
 export async function POST(request: NextRequest) {
 
+    const origin = request.headers.get('origin')
+
     const params = request.nextUrl.searchParams
     const paramUserId = params.get("userid")
 
@@ -60,10 +62,26 @@ export async function POST(request: NextRequest) {
 
             })
 
-            return NextResponse.json({ session });
+            return NextResponse.json(
+                { session },
+                {
+                    headers: {
+                        'Access-Control-Allow-Origin': origin!,
+                        'Content-Type': 'application/json',
+                    }
+                }
+            );
         } else {
             console.log("No Products found")
-            return NextResponse.json({ message: "No Products Found" });
+            return NextResponse.json(
+                { message: "No Products Found" },
+                {
+                    headers: {
+                        'Access-Control-Allow-Origin': origin!,
+                        'Content-Type': 'application/json',
+                    }
+                }
+            );
 
         }
 
