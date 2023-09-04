@@ -78,9 +78,13 @@ import { db, cartTable } from "@/lib/drizzle";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { buffer } from "micro"
+import { headers } from "next/headers"
 
 
 export async function POST(req: any, res: any) {
+
+    const headerslist = headers();
+
 
     const webHookSecret = process.env.STRIPE_WEBHOOK_SIGNING_SECRET as string
 
@@ -89,7 +93,10 @@ export async function POST(req: any, res: any) {
         const requestBuffer = await buffer(req)
         const rawBody = requestBuffer.toString()
 
-        const signature = req.headers['stripe-signature'] as string;
+        // This gives error
+        // const signature = req.headers['stripe-signature'] as string;
+
+        const signature = headerslist.get("stripe-signature")
 
         const stripe = new Stripe(
             process.env.STRIPE_SECRET_KEY as string,
@@ -103,7 +110,7 @@ export async function POST(req: any, res: any) {
             // got this from docs https://github.com/vercel/next.js/blob/canary/examples/with-stripe-typescript/app/api/webhooks/route.ts
             event = stripe.webhooks.constructEvent(
                 rawBody,
-                signature,
+                signature!,
                 webHookSecret
             )
 
