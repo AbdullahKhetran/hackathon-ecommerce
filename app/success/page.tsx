@@ -1,10 +1,15 @@
+"use client"
 import Copyright from "@/components/Footer/Copyright";
 import Footer from "@/components/Footer/Footer";
 import Navbar from "@/components/Navbar/Navbar";
+import { useAppDispatch } from "@/redux/hooks";
 import { CheckCircle } from 'lucide-react';
 import Link from "next/link";
+import { reset } from "@/redux/features/cartSlice";
 
 export default function Sucess() {
+    const dispatch = useAppDispatch()
+    dispatch(reset()) // reseting cart state when user lands on this page
     return (
         <div className="max-w-center">
             <Navbar />
