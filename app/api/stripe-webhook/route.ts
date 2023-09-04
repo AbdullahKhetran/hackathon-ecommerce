@@ -51,7 +51,7 @@ export async function POST(req: any, res: any) {
 
             await db.delete(cartTable).where(eq(cartTable.userid, userId));
 
-            console.log("Payment Sucessful", session);
+            // console.log("Payment Sucessful", session);
             // @ts-ignore
             // const line_Items = await stripe.checkout.sessions.listLineItems(event.data.object!.id);
 
