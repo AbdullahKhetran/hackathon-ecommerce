@@ -3,14 +3,13 @@ import Footer from "@/components/Footer/Footer"
 import Copyright from "@/components/Footer/Copyright"
 import Navbar from "@/components/Navbar/Navbar"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { getData } from "@/lib/utils"
+import { getData, handleChange } from "@/lib/functions"
 import { useEffect, useState } from "react"
 import { CombinedProduct } from "@/types/products";
 import { MinusIcon, PlusIcon, ShoppingCart, Trash2 } from "lucide-react"
 import Image from "next/image"
 import { urlFor } from "@/sanity/sanity-utils"
 import { deleteFromCart, increaseQuantity, decreaseQuantity, reset } from "@/redux/features/cartSlice"
-import { handleChange } from "@/lib/utils";
 import StripeCheckoutButton from "@/components/CheckoutButton";
 
 function EmptyCart() {
@@ -30,7 +29,7 @@ export default function Home() {
     const userid = useAppSelector((state) => state.auth.uid);
 
     const [data, setData] = useState<CombinedProduct[]>([])
-    const [isCartEmpty, setIsCartEmpty] = useState(false);
+    const [isCartEmpty, setIsCartEmpty] = useState(true);
 
     const [refresh, setRefresh] = useState(false)
 
