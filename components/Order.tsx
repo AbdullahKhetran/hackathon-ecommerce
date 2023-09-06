@@ -13,6 +13,7 @@ import { addToCart, increaseQuantity } from "@/redux/features/cartSlice"
 import { NewCart } from "@/lib/drizzle"
 // import { MouseEvent } from "react"
 import { getData } from "@/app/cart/cartData"
+import { Toaster, toast } from "react-hot-toast"
 
 
 type Props = {
@@ -45,56 +46,6 @@ export function Order({ matchingProduct }: Props) {
     }
 
     // call on button click
-    // const handleAddToCartClick = async () => {
-
-    //     try {
-    //         // get data: if product exists, PUT request else POST request
-    //         const data = await getData(userId)
-
-    //         if (Array.isArray(data)) {
-    //             // if data has products in it and not an json object
-
-    //             const existingProduct = data.find((item) => item.id === matchingProduct._id)
-
-    //             if (existingProduct) { // PUT request
-
-    //                 const newQuantity = existingProduct.quantity + quantity
-
-    //                 // update database
-    //                 await handleChange({ uid: userId, product: existingProduct, quantity: newQuantity })
-
-    //                 // update state
-    //                 dispatch(increaseQuantity(existingProduct.id))
-
-    //             } else { // POST request
-    //                 // update database
-    //                 handleAddToCart({ product: cartProduct, quantity: quantity, uid: userId }) // updates database
-    //                 //    update state
-    //                 const payload = {
-    //                     product: cartProduct,
-    //                     quantity: quantity,
-    //                 }
-    //                 dispatch(addToCart(payload));
-
-    //             }
-    //         } else { // now either cart is empty json or error json
-    //             // update database
-    //             handleAddToCart({ product: cartProduct, quantity: quantity, uid: userId }) // updates database
-    //             //    update state
-    //             const payload = {
-    //                 product: cartProduct,
-    //                 quantity: quantity,
-    //             }
-    //             dispatch(addToCart(payload));
-
-    //         }
-
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
-
-    // call on button click
     const handleAddToCartClick = async () => {
 
         try {
@@ -102,23 +53,23 @@ export function Order({ matchingProduct }: Props) {
             const data = await getData(userId)
 
             if (Array.isArray(data)) {
+                // only updating when success data was sent and not json object
 
                 const existingProduct = data.find((item) => item.id === matchingProduct._id)
 
-                if (existingProduct) {
-                    // only updating when success data was sent and not json object
+                if (existingProduct) { // PUT request
 
                     const newQuantity = existingProduct.quantity + quantity
+                    await handleChange({ uid: userId, product: existingProduct, quantity: newQuantity }) // updates database
 
-                    // update database
-                    await handleChange({ uid: userId, product: existingProduct, quantity: newQuantity })
+                    toast.success(`${quantity} ${matchingProduct.name} added to the cart`) // notification
 
                     // update state
                     dispatch(increaseQuantity(existingProduct.id))
 
-                } else {
-                    // update database
-                    handleAddToCart({ product: cartProduct, quantity: quantity, uid: userId }) // updates database
+                } else { // POST request       
+                    await handleAddToCart({ product: cartProduct, quantity: quantity, uid: userId }) // updates database
+                    toast.success(`${quantity} ${matchingProduct.name} added to the cart`) // notification
                     //    update state
                     const payload = {
                         product: cartProduct,
@@ -127,9 +78,9 @@ export function Order({ matchingProduct }: Props) {
                     dispatch(addToCart(payload));
 
                 }
-            } else {
-                // update database
-                handleAddToCart({ product: cartProduct, quantity: quantity, uid: userId }) // updates database
+            } else { // array not returned maybe api error then just POST it                
+                await handleAddToCart({ product: cartProduct, quantity: quantity, uid: userId }) // updates database
+                toast.success(`${quantity} ${matchingProduct.name} added to the cart`) // notification
                 //    update state
                 const payload = {
                     product: cartProduct,
@@ -146,6 +97,7 @@ export function Order({ matchingProduct }: Props) {
 
     return (
         <div className="flex flex-col gap-10 max-w-[70%]">
+            <Toaster />
             <div className=" flex flex-col gap-1">
                 <h1 className="text-3xl tracking-wider text-darkGray">{matchingProduct?.name}</h1>
                 <h2 className="text-2xl font-semibold text-black/50">{matchingProduct?.category}</h2>
