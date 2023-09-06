@@ -1,3 +1,5 @@
+const defaultTheme = require("tailwindcss/defaultTheme")
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
@@ -8,6 +10,10 @@ module.exports = {
     './src/**/*.{ts,tsx}',
   ],
   theme: {
+    screens: {
+      "xs": "500px",
+      ...defaultTheme.screens
+    },
     container: {
       center: true,
       padding: "2rem",
@@ -18,6 +24,12 @@ module.exports = {
     extend: {
       colors: {
         darkGray: "#212121",
+        sectionSilver: "#fcfcfc",
+        promotionCard: "#d6d6d8",
+        promotionProduct: "#efe1c7",
+        promotionProduct2: "#d7d7d9",
+        socialIconbg: "#f1f1f1",
+        productSubtitle: "#666666",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -73,5 +85,8 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require('@tailwindcss/typography')
+  ],
 }
