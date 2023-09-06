@@ -50,12 +50,12 @@ export default function Home() {
             })
             console.log(res)
             if (!res.ok) {
-                throw new Error("Could not remove product")
+                throw new Error("Error deleting product from database")
             }
             setRefresh(!refresh) // to re-render
 
         } catch (error) {
-            console.error("Error deleting product", error)
+            console.error("Could not remove product", error)
         }
     }
 
@@ -120,9 +120,9 @@ export default function Home() {
                             };
 
                             // for removing product
-                            const handleDelete = (userid: string, productId: string) => () => {
+                            const handleDelete = (userid: string, productId: string) => async () => {
                                 dispatch(deleteFromCart(productId)); // updates state
-                                handleDeleteFromCart({ uid: userid, productId: productId }) // updates database                                
+                                await handleDeleteFromCart({ uid: userid, productId: productId }) // updates database                                
                             }
                             return (
                                 <div key={product.id} className="flex flex-col md:flex-row gap-8 mt-8">
