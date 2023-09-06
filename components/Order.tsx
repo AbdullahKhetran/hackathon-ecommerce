@@ -11,10 +11,8 @@ import { useDispatch } from "react-redux";
 import { addUserId, removeUserId } from "@/redux/features/authSlice";
 import { addToCart, increaseQuantity } from "@/redux/features/cartSlice"
 import { NewCart } from "@/lib/drizzle"
-// import { MouseEvent } from "react"
-import { getData } from "@/app/cart/cartData"
+import { getData } from "@/lib/utils"
 import { Toaster, toast } from "react-hot-toast"
-
 
 type Props = {
     matchingProduct: Product,

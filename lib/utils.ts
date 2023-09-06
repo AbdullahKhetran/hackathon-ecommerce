@@ -19,6 +19,17 @@ type DeleteProductProps = {
   productId: string
 }
 
+export async function getData(uid: string) {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/cart?userid=${uid}`)
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch data')
+  }
+
+  const data: CombinedProduct[] = await res.json()
+
+  return data
+}
 
 export async function handleAddToCart({ product, quantity, uid }: PropsPOST) {
 

@@ -3,9 +3,9 @@ import Footer from "@/components/Footer/Footer"
 import Copyright from "@/components/Footer/Copyright"
 import Navbar from "@/components/Navbar/Navbar"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { getData } from "@/app/cart/cartData"
+import { getData } from "@/lib/utils"
 import { useEffect, useState } from "react"
-import { CombinedProduct, MyProduct } from "@/types/products";
+import { CombinedProduct } from "@/types/products";
 import { MinusIcon, PlusIcon, ShoppingCart, Trash2 } from "lucide-react"
 import Image from "next/image"
 import { urlFor } from "@/sanity/sanity-utils"
