@@ -30,6 +30,7 @@ export default function Home() {
     const userid = useAppSelector((state) => state.auth.uid);
 
     const [data, setData] = useState<CombinedProduct[]>([])
+    const [isCartEmpty, setIsCartEmpty] = useState(false);
 
     const [refresh, setRefresh] = useState(false)
 
@@ -69,8 +70,11 @@ export default function Home() {
                 if (Array.isArray(fetchedData)) {
                     // this check because there is possibility that res was json {message: "cart is empty"}
                     setData(fetchedData)
+                    setIsCartEmpty(false)
+
+                } else {
+                    setIsCartEmpty(true)
                 }
-                // console.log("set data is ", data)
 
             } catch (error) {
                 console.error("Error fetching data", error);
@@ -80,7 +84,7 @@ export default function Home() {
     }, [refresh, userid]);
 
 
-    if (data.length === 0) return (
+    if (isCartEmpty) return (
         <div className="max-w-center">
             <Navbar />
 
