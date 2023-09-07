@@ -33,7 +33,7 @@ export default async function ProductPage({ params }: { params: { id: string } }
         <div >
             <div className='max-w-center'>
                 <Navbar />
-                <div className="mb-24 p-8 mx-16 xl:mx-32 bg-sectionSilver flex flex-col gap-8">
+                <div className="mb-24 p-8  xl:mx-32 bg-sectionSilver flex flex-col gap-8">
                     {/* Product Image and order */}
 
                     <div className="flex flex-col gap-8 lg:flex-row ">
