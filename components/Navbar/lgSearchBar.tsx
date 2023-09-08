@@ -1,23 +1,23 @@
 "use client"
 import { Search } from 'lucide-react'
-import { getAllProducts } from "@/sanity/sanity-utils"
+import { getAllProducts, urlFor } from "@/sanity/sanity-utils"
 import { Product } from "@/types/sanity"
 import { useState, useEffect, useRef } from "react"
 import Link from 'next/link'
-
+import Image from 'next/image'
 
 export default function LgSearchBar() {
     const [products, setProducts] = useState<Product[]>([])
     const [dataAvailable, setDataAvailable] = useState(false)
 
     const [activeSearch, setActiveSearch] = useState<Product[]>([])
-    const [isSearchResultsOpen, setIsSearchResultsOpen] = useState(false)
 
+    const [isSearchResultsOpen, setIsSearchResultsOpen] = useState(false)
     const searchBarRef = useRef<HTMLInputElement | null>(null);
     const searchResultsRef = useRef<HTMLInputElement | null>(null);
 
     async function handleSearchBarClick() {
-        // data set nahi 
+        // if data is not set then fetch data
         if (!dataAvailable) {
             const data = await getAllProducts()
             // console.log("data fetched")
@@ -62,7 +62,7 @@ export default function LgSearchBar() {
         <div className="flex gap-2 p-1 border rounded-md w-[30%] relative">
 
             <Search size={20} strokeWidth={1} />
-            <input type="type" placeholder="Search products"
+            <input type="text" placeholder="Search products"
                 onClick={handleSearchBarClick}
                 onChange={(e) => handleSearch(e)}
                 className="grow focus:outline-none"
@@ -74,9 +74,18 @@ export default function LgSearchBar() {
                         {
                             activeSearch.map(product => (
                                 <Link key={product._id} href={`/products/${product.slug.current}`}
-                                    className='hover:bg-gray-300 rounded-md px-1 text-lg'>
+                                    className='flex justify-between hover:bg-gray-200 rounded-md px-1 text-lg'>
 
-                                    <h1>{product.name}</h1>
+                                    <div className="flex flex-col">
+                                        <h1 className="font-medium">{product.name}</h1>
+                                        <h2>${product.price}</h2>
+                                        <h2 className="text-black/70">{product.category}</h2>
+                                    </div>
+                                    <Image src={urlFor(product.image).url()}
+                                        alt={`Image of ${product.name}`}
+                                        width={80}
+                                        height={50}
+                                    />
                                 </Link>
                             ))
                         }
@@ -86,4 +95,3 @@ export default function LgSearchBar() {
         </div>
     )
 }
-
