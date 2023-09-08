@@ -1,11 +1,10 @@
 import Link from "next/link"
 import Image from "next/image"
 import logo from "@/public/Logo.webp"
-import { Search } from "lucide-react"
 import { LgNavCartIcon } from "./CartIcon"
+import LgSearchBar from "@/components/Navbar/lgSearchBar"
 
 // This is Navbar for screen larger than small size
-
 export default function LgNav() {
     return (
         <div className="flex justify-between items-center my-[5vh] mx-16 xl:mx-32  ">
@@ -26,15 +25,11 @@ export default function LgNav() {
                 <Link href="/products" >All Products</Link>
             </div>
 
-            <div className="flex gap-2 p-1 border rounded-md w-[30%]">
-
-                <Search size={20} strokeWidth={1} />
-                <input type="type" placeholder="Search products" className="grow focus:outline-none" />
-            </div>
+            <LgSearchBar />
 
             <div className=" ">
                 <LgNavCartIcon />
             </div>
-        </div>
+        </div >
     )
 }
