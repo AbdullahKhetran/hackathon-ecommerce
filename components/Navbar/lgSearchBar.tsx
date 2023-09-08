@@ -1,3 +1,4 @@
+"use client"
 import { Search } from 'lucide-react'
 import { getAllProducts } from "@/sanity/sanity-utils"
 import { Product } from "@/types/sanity"
