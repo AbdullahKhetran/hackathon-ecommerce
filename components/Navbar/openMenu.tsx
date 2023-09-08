@@ -13,7 +13,7 @@ type Props = {
 
 
 export default function OpenMenu({ onShow }: Props) {
-    // by chatgpt to disable scrolling when this component mounts
+    // to disable scrolling when this component mounts
     useEffect(() => {
         document.body.style.overflow = 'hidden';
         return () => {

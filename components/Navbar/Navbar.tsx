@@ -20,7 +20,7 @@ export default function Navbar() {
         if (typeof window !== 'undefined') {
             // need to add this check because of vercel error: window exists on borwser (client side) but build is happening on server
 
-            setWidth(window.innerWidth); // looks unnecessary, checked with chatgpt
+            setWidth(window.innerWidth);
             window.addEventListener('resize', handleWindowResize);
 
             return () => {
